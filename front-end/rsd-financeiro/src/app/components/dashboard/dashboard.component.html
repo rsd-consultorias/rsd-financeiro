@@ -1,0 +1,97 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Dashboard - Junho/2022</h1>
+</div>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="row row-cols-1 row-cols-md-3 g-1" style="max-height: 360px;">
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">Entradas</div>
+                <div class="card-body">
+                    <h5 class="card-title">R$ 100.000,00</h5>
+                    <canvas style="max-height: 240px;" id="graficoReceitas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">Saídas</div>
+                <div class="card-body">
+                    <h5 class="card-title">R$ 20.000,00</h5>
+                    <canvas style="max-height: 240px;" id="graficoDespesas"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-header">Resultado</div>
+                <div class="card-body">
+                    <h5 class="card-title">R$ 80.000,00</h5>
+                    <canvas style="max-height: 240px;" id="graficoResultado"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col w-100">
+            <div class="card h-100">
+                <div class="card-header">Evolução do Resultado no Ano</div>
+                <canvas id="graficoResultado12Meses" height="220"></canvas>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Valores a Pagar e a Receber</div>
+                <div class="card-body">
+                    <h5 class="card-title text-success">Receber: R$ 10.000,00</h5>
+                    <h6 class="h-3 text-secondary">Inadimplentes: R$ 3.000,00</h6>
+                    <br />
+                    <h5 class="card-title text-danger">Pagar: R$ 2.000,00</h5>
+                    <h6 class="h-3 text-secondary">Atrasados: R$ 1.000,00</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Demonstrativo de Resultado</th>
+                                <th style="text-align: right;">Junho/2022</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RECEITAS</td>
+                                <td style="text-align: right;">100.000,00</td>
+                            </tr>
+                            <tr>
+                                <td>(-) Custo das Mercadorias Vendidas</td>
+                                <td style="text-align: right;">(5.000,00)</td>
+                            </tr>
+                            <tr>
+                                <td>= RESULTADO BRUTO</td>
+                                <td style="text-align: right;">95.000,00</td>
+                            </tr>
+                            <tr>
+                                <td>(-) Despesas de Vendas</td>
+                                <td style="text-align: right;">(10.000,00)</td>
+                            </tr>
+                            <tr>
+                                <td>(-) Despesas Administrativas</td>
+                                <td style="text-align: right;">(2.500,00)</td>
+                            </tr>
+                            <tr>
+                                <td>(-) Despesas de Financeiras</td>
+                                <td style="text-align: right;">(2.500,00)</td>
+                            </tr>
+                            <tr>
+                                <td>= LUCRO LÍQUIDO</td>
+                                <td style="text-align: right;">80.000,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

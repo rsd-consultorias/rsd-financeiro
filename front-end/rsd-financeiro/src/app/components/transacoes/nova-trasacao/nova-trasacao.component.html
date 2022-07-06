@@ -1,0 +1,144 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Nova Transação</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <button type="button" class="btn btn-primary" (click)="salvar()">Salvar</button>
+            <button type="button" class="btn btn-outline-secondary" routerLink="../">Voltar</button>
+        </div>
+    </div>
+</div>
+<div class="table-responsive">
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne">
+                    Dados Gerais
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="row g-3">
+                        <div class="col-md-2">
+                            <label for="inputEmail4" class="form-label">Data</label>
+                            <input type="text" lang="pt-BR" class="form-control" id="inputEmail4"
+                                [ngModel]="novaTransacao.data! | date : 'dd/MM/yyyy'" (ngModelChange)="novaTransacao.data = utilsService.formataStringDataToISO($event)">
+                        </div>
+                        <div class="col-md-10">
+                            <label for="inputPassword4" class="form-label">Transação</label>
+                            <select class="form-control" [(ngModel)]="novaTransacao.codigo"
+                                (ngModelChange)="listarEventos($event)">
+                                <option *ngFor="let tr of transacaoService.listarTransacoes" [ngValue]="tr.codigo">
+                                    {{tr.codigo}} - {{tr.descricao}}</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress" class="form-label">Histórico</label>
+                            <input type="text" class="form-control" id="inputAddress"
+                                [(ngModel)]="novaTransacao.historico">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress2" class="form-label">Complemento</label>
+                            <input type="text" class="form-control" id="inputAddress2"
+                                [(ngModel)]="novaTransacao.complemento">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item" [ngClass]="novaTransacao.codigo ? '' : 'd-none'">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Eventos
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body overflow-hidden">
+                    <div class="row">
+                        <div class="col-4 overflow-auto" style="max-height: 320px;">
+                            <ul class="list-group" style="cursor: pointer;">
+                                <li class="list-group-item d-flex justify-content-between align-items-center"
+                                    *ngFor="let evento of eventos" (click)="incluirEvento(evento)">
+                                    {{evento.codigo}} - {{evento.descricao}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-8 overflow-auto" style="max-height: 320px;">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center"
+                                    *ngFor="let evento of eventosSelecionados; let i = index">
+                                    <div class="col p-1">
+                                        <span>{{evento.codigo}} -
+                                            {{eventosService.buscarDescricaoPorCodigo(evento.codigo).descricao}}</span>
+                                    </div>
+                                    <div class="col-3 p-1">
+                                        <input type="text" class="form-control text-end" lang="pt-BR"
+                                            [ngModel]="evento.valor!.valor! | formatarNumero"
+                                            (ngModelChange)="evento.valor!.valor = $event.replace(',', '').replace('.', '')"
+                                            appFormatarNumero />
+                                    </div>
+                                    <div class="col-2 p-1">
+                                        <select class="form-control" [(ngModel)]="evento.valor!.moeda!">
+                                            <option value="BRL">BRL</option>
+                                            <option value="USD">USD</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-2 p-1">
+                                        <select class="form-control" [(ngModel)]="evento.natureza!">
+                                            <option value="">Selecione</option>
+                                            <option value="E">Entrada</option>
+                                            <option value="S">Saída</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-1 p-1">
+                                        <button class="btn btn-small btn-outline-danger" (click)="removerEvento(i)"><i
+                                                class="bi-trash"></i></button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Documento
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="row g-3">
+                        <div class="col-md-2">
+                            <label for="inputEmail4" class="form-label">Referência</label>
+                            <input type="text" class="form-control" id="inputEmail4"
+                                [(ngModel)]="novaTransacao.documento.referencia">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputEmail5" class="form-label">Tipo de Documento</label>
+                            <span class="form-control" readonly>{{novaTransacao.documento.tipo}}&nbsp;</span>
+                        </div>
+                        <div class="col-md-7">
+                            <label for="inputEmail6" class="form-label">Descrição</label>
+                            <input type="text" class="form-control" id="inputEmail6"
+                                [(ngModel)]="novaTransacao.documento.descricao">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label" for="customFile">Arquivo {{fileUpload.fileSize}}</label>
+                                <input type="file" class="form-control" id="customFile" (change)="fileChanged($event)"
+                                    lang="pt-BR" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
