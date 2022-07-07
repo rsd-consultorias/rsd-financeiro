@@ -2,7 +2,8 @@
     <h1 class="h2">Nova Transação</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <button type="button" class="btn btn-primary" (click)="salvar()">Salvar</button>
+            <button type="button" class="btn btn-primary" (click)="salvar()" data-bs-toggle="collapse"
+                data-bs-target="#collapseOne">Salvar</button>
             <button type="button" class="btn btn-outline-secondary" routerLink="../">Voltar</button>
         </div>
     </div>
@@ -22,8 +23,9 @@
                     <div class="row g-3">
                         <div class="col-md-2">
                             <label for="inputEmail4" class="form-label">Data</label>
-                            <input type="text" lang="pt-BR" class="form-control" id="inputEmail4"
-                                [ngModel]="novaTransacao.data! | date : 'dd/MM/yyyy'" (ngModelChange)="novaTransacao.data = utilsService.formataStringDataToISO($event)">
+                            <input type="text" lang="pt-BR" class="form-control datepicker" id="inputEmail4"
+                                [ngModel]="novaTransacao.data! | date : 'dd/MM/yyyy':'-03:00'"
+                                (ngModelChange)="novaTransacao.data = utilsService.formataStringDataToISO($event)">
                         </div>
                         <div class="col-md-10">
                             <label for="inputPassword4" class="form-label">Transação</label>

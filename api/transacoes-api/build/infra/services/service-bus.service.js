@@ -22,6 +22,7 @@ class ServiceBus {
     async publish(message, queue) {
         message.id = (0, crypto_1.randomUUID)();
         message.status = message_status_enum_1.EMessageStatus.QUEUED;
+        message.version = 'v1';
         await this.collection?.insertOne(message);
         return message_status_enum_1.EMessageStatus.QUEUED;
     }

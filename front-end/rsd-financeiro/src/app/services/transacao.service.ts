@@ -81,7 +81,7 @@ export class TransacaoService {
   }
 
   public listarTodos(pagina: number, tamanho: number): Observable<Array<Transacao>> {
-    return this.httpClient.get<Array<Transacao>>(`http://192.168.100.7:4201/api/v1?pagina=${0}&tamanho=${300}`);
+    return this.httpClient.get<Array<Transacao>>(`http://192.168.100.7:4201/api/v1?pagina=${0}&tamanho=${tamanho}`);
   }
 
   public salvar(transacao: Transacao): Observable<APIResponse<Transacao>> {

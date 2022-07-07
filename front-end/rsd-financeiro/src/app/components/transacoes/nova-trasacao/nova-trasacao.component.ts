@@ -59,6 +59,10 @@ export class NovaTrasacaoComponent implements OnInit {
       transacaoOk = false;
     }
 
+    if (transacao.historico == undefined) {
+      transacaoOk = false;
+    }
+
     if (transacao.eventos.length == 0) {
       transacaoOk = false;
     }

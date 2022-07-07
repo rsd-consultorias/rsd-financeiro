@@ -25,6 +25,7 @@ export class ServiceBus implements IServiceBus {
     public async publish(message: any, queue: string): Promise<EMessageStatus> {
         message.id = randomUUID();
         message.status = EMessageStatus.QUEUED;
+        message.version = 'v1';
         await this.collection?.insertOne(message);
         return EMessageStatus.QUEUED;
     }
