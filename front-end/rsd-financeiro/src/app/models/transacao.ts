@@ -14,6 +14,7 @@ export class EventoVO {
     public codigo!: string;
     public valor!: DinheiroVO;
     public natureza!: string;
+    public centroCustos!: string;
 }
 
 export class DinheiroVO {

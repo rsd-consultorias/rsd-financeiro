@@ -1,9 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DocumentoVO = exports.DinheiroVO = exports.EventoVO = exports.Transacao = exports.MessageEvent = void 0;
-class MessageEvent {
-}
-exports.MessageEvent = MessageEvent;
+exports.DocumentoVO = exports.DinheiroVO = exports.EventoVO = exports.Transacao = void 0;
 class Transacao {
     constructor() {
         this.eventos = [];

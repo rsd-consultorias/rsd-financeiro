@@ -1,5 +1,5 @@
-import { EMessageStatus } from "../enum/message-status.enum";
+import { MessageEvent } from "../types/message.event";
 
 export interface IServiceBus {
-    publish(message: any, queue: string): Promise<EMessageStatus>;
+    publish(message: MessageEvent<any>, queue: string): Promise<MessageEvent<any>>;
 }

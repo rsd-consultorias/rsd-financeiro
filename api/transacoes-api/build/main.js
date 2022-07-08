@@ -11,8 +11,10 @@ const transacao_commands_1 = require("./application-core/commands/transacao.comm
 const service_bus_service_1 = require("./infra/services/service-bus.service");
 const mongodb_1 = require("mongodb");
 const crypto_1 = require("crypto");
-const API_PORTA = 4201;
+const API_PORTA = process.env.API_PORTA;
 const API_VERSAO = 'v1';
+const DB_CONN_STR = process.env.DB_CONN_STR;
+const CORS_HOSTS = process.env.CORS_HOSTS;
 const corsOptions = {
     origin: [
         'http://localhost:4200',
@@ -41,14 +43,21 @@ app.get(`/api/${API_VERSAO}/:id`, async (req, res) => {
 app.put(`/api/${API_VERSAO}/`, async (req, res) => {
     let transacao = req.body;
     transacao.id = (0, crypto_1.randomUUID)();
-    res.json(await transacaoApplication.incluir(transacao));
+    try {
+        res.json(await transacaoCommands.criarTransacao(transacao));
+    }
+    catch (error) {
+        res.json({
+            exception: error
+        });
+    }
 });
 app.put(`/api/${API_VERSAO}/lote`, async (req, res) => {
     let transacoes = req.body;
     let processados = [];
     transacoes.forEach(async (transacao) => {
         transacao.id = (0, crypto_1.randomUUID)();
-        processados.push(await transacaoApplication.incluir(transacao));
+        processados.push(await transacaoCommands.criarTransacao(transacao));
     });
     res.json(processados);
 });
@@ -71,10 +80,10 @@ app.use(function (err, req, res, next) {
 });
 // Listener
 app.listen(API_PORTA, async () => {
-    mongoClient = await mongodb_1.MongoClient.connect('mongodb://localhost:27017/financeiro?readPreference=primary&appname=api-rsd-transacoes&directConnection=true&ssl=false');
+    mongoClient = await mongodb_1.MongoClient.connect(DB_CONN_STR);
     transacaoRepository = new transacao_repository_1.TransacaoRepository(mongoClient);
     serviceBus = new service_bus_service_1.ServiceBus(transacaoRepository, mongoClient);
     transacaoCommands = new transacao_commands_1.TransacaoCommands(serviceBus);
-    transacaoApplication = new transacao_application_1.TransacaoApplication(transacaoRepository, transacaoCommands);
+    transacaoApplication = new transacao_application_1.TransacaoApplication(transacaoRepository);
     console.log(`Escutando porta ${API_PORTA}`);
 });

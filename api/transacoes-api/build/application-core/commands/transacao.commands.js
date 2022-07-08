@@ -2,23 +2,25 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransacaoCommands = void 0;
 const transacao_factory_1 = require("../factories/transacao.factory");
+const constants_1 = require("../types/constants");
 class TransacaoCommands {
     constructor(serviceBus) {
         this.serviceBus = serviceBus;
     }
     async criarTransacao(transacao) {
-        let transacaoCriada = transacao_factory_1.TransacaoFactory.makeTransacaoCriadaEvent(transacao);
-        transacaoCriada.status = await this.serviceBus.publish(transacaoCriada, 'NOVAS_TRANSACOES');
-        ;
-        return transacaoCriada;
+        // Regras de negócio -> domais services
+        return await this.serviceBus.publish(transacao_factory_1.TransacaoFactory.makeCriarTransacaoEvent(transacao), constants_1.Constants.QUEUE_CRIAR_TRANSACOES);
     }
-    alterarTransacao(transacao) {
-        return transacao_factory_1.TransacaoFactory.makeTransacaoAlteradaEvent(transacao);
+    async alterarTransacao(transacao) {
+        // Regras de negócio -> domais services
+        return await this.serviceBus.publish(transacao_factory_1.TransacaoFactory.makeAlterarTransacaoEvent(transacao), constants_1.Constants.QUEUE_ALTERAR_TRANSACOES);
     }
-    excluirTransacao(transacao) {
-        return transacao_factory_1.TransacaoFactory.makeTransacaoExcluidaEvent(transacao);
+    async excluirTransacao(transacao) {
+        // Regras de negócio -> domais services
+        return await this.serviceBus.publish(transacao_factory_1.TransacaoFactory.makeExcluirTransacaoEvent(transacao), constants_1.Constants.QUEUE_EXCLUIR_TRANSACOES);
     }
-    atualizarSaldos(event) {
+    async atualizarSaldos(event) {
+        // Regras de negócio -> domais services
         return {};
     }
 }

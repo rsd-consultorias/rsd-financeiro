@@ -36,12 +36,14 @@ export class NovaTrasacaoComponent implements OnInit {
   }
 
   incluirEvento(eventoSelecionado: any) {
-    let evento = this.eventosService.buscarDescricaoPorCodigo(eventoSelecionado.codigo)! as EventoVO;
-    evento.codigo = eventoSelecionado.codigo;
-    evento.valor = new DinheiroVO();
-    evento.valor.moeda = 'BRL';
-    evento.natureza = "";
-    this.eventosSelecionados.push(evento);
+    // let evento = this.eventosService.buscarDescricaoPorCodigo(eventoSelecionado.codigo)! as EventoVO;
+    let novoEvento = new EventoVO();
+    novoEvento.codigo = eventoSelecionado.codigo;
+    novoEvento.valor = new DinheiroVO();
+    novoEvento.valor.moeda = 'BRL';
+    novoEvento.natureza = "";
+    novoEvento.centroCustos = '';
+    this.eventosSelecionados.push(novoEvento);
   }
 
   removerEvento(indice: number) {

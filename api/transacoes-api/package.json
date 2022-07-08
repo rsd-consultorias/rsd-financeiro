@@ -1,7 +1,9 @@
 {
-  "name": "rsd-financeiro-api",
+  "name": "rsd-transacoes-api",
+  "displayName": "RSD Transações - API",
   "version": "0.0.0",
   "scripts": {
+    "doc": "typedoc --entryPointStrategy expand ./src"
   },
   "private": true,
   "dependencies": {
@@ -12,6 +14,7 @@
     "express": "^4.17.1",
     "mongodb": "^4.1.1",
     "tslib": "^2.3.0",
+    "typedoc": "^0.23.6",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

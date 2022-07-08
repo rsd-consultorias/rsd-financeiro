@@ -60,7 +60,7 @@
                 data-bs-parent="#accordionExample">
                 <div class="accordion-body overflow-hidden">
                     <div class="row">
-                        <div class="col-4 overflow-auto" style="max-height: 320px;">
+                        <div class="col-3 overflow-auto" style="max-height: 320px;">
                             <ul class="list-group" style="cursor: pointer;">
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
                                     *ngFor="let evento of eventos" (click)="incluirEvento(evento)">
@@ -68,36 +68,46 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-8 overflow-auto" style="max-height: 320px;">
+                        <div class="col-9 overflow-auto" style="max-height: 320px;">
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
                                     *ngFor="let evento of eventosSelecionados; let i = index">
-                                    <div class="col p-1">
-                                        <span>{{evento.codigo}} -
-                                            {{eventosService.buscarDescricaoPorCodigo(evento.codigo).descricao}}</span>
-                                    </div>
+                                    <span>{{evento.codigo}} -
+                                        {{eventosService.buscarDescricaoPorCodigo(evento.codigo).descricao}}</span>
                                     <div class="col-3 p-1">
+                                        <label class="form-label">Valor</label>
                                         <input type="text" class="form-control text-end" lang="pt-BR"
                                             [ngModel]="evento.valor!.valor! | formatarNumero"
                                             (ngModelChange)="evento.valor!.valor = $event.replace(',', '').replace('.', '')"
                                             appFormatarNumero />
                                     </div>
                                     <div class="col-2 p-1">
+                                        <label class="form-label">Moeda</label>
                                         <select class="form-control" [(ngModel)]="evento.valor!.moeda!">
                                             <option value="BRL">BRL</option>
                                             <option value="USD">USD</option>
                                         </select>
                                     </div>
                                     <div class="col-2 p-1">
+                                        <label class="form-label">Natureza</label>
                                         <select class="form-control" [(ngModel)]="evento.natureza!">
                                             <option value="">Selecione</option>
                                             <option value="E">Entrada</option>
                                             <option value="S">Saída</option>
                                         </select>
                                     </div>
+                                    <div class="col-2 p-1">
+                                        <label class="form-label">C. Custos</label>
+                                        <select class="form-control" [(ngModel)]="evento.centroCustos!">
+                                            <option value="">Selecione</option>
+                                            <option value="1000">1000</option>
+                                            <option value="1001">1001</option>
+                                        </select>
+                                    </div>
                                     <div class="col-1 p-1">
-                                        <button class="btn btn-small btn-outline-danger" (click)="removerEvento(i)"><i
-                                                class="bi-trash"></i></button>
+                                        <label class="form-label">&nbsp;</label>
+                                        <button class="btn btn-small btn-outline-danger form-control"
+                                            (click)="removerEvento(i)"><i class="bi-trash"></i></button>
                                     </div>
                                 </li>
                             </ul>

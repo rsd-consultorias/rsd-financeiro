@@ -19,24 +19,25 @@
         <h2 class="accordion-header" [id]="'collpaseheader' + i">
             <div [class]="i == 0 ? 'accordion-button' : 'accordion-button collapsed'" data-bs-toggle="collapse"
                 [attr.data-bs-target]="'#collpaseitem' + i" aria-expanded="false"
-                [attr.aria-controls]="'collpaseitem' + i">
+                [attr.aria-controls]="'collpaseitem' + i" type="button">
                 <div class="col">
                     <b>Data:</b> {{transacao.data | date: 'dd/MM/yyyy': '-03:00'}} - {{transacao.codigo}} -
                     {{transacaoService.buscarDescricaoPorCodigo(transacao.codigo).descricao}}
-                    <br /><b>Histórico:</b> {{transacao.historico}} <i *ngIf="transacao.documento!.base64" class="bi-file-code-fill text-danger"></i>
+                    <br /><b>Histórico:</b> {{transacao.historico}} <i *ngIf="transacao.documento!.base64"
+                        class="bi-file-code-fill text-danger"></i>
                 </div>
             </div>
         </h2>
         <div [id]="'collpaseitem' + i" [class]="i == 0 ? 'accordion-collapse collapse' : 'accordion-collapse collapse'"
             [attr.aria-labelledby]="'collpaseheader' + i" data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
-                <div class="row">
-                    <div class="col-1">
+                <div class="row w-100">
+                    <div class="col">
+                        <b>Complemento:</b> {{transacao.complemento}}
+                    </div>
+                    <div class="col-3 col-md-1 text-end">
                         <button class="btn btn-sm btn-outline-primary no-border"><i class="bi-pencil"></i></button>
                         <button class="btn btn-sm btn-outline-danger no-border"><i class="bi-trash"></i></button>
-                    </div>
-                    <div class="col">
-                    <b>Complemento:</b> {{transacao.complemento}}
                     </div>
                 </div>
                 <table class="table table-sm table-hover">
@@ -44,6 +45,9 @@
                         <tr>
                             <th scope="col" class="col">Evento</th>
                             <th scope="col" class="col-2 text-end">Valor</th>
+                            <th scope="col" class="col-1 text-center">Moeda</th>
+                            <th scope="col" class="col-1 text-end">Natureza</th>
+                            <th scope="col" class="col-2 text-end">Centro de Custos</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,15 +55,12 @@
                             <td class="col nowrap">{{transacao.codigo}}.{{evento.codigo}} -
                                 {{eventosService.buscarDescricaoPorCodigo(evento.codigo).descricao}}</td>
                             <td class="col-2 text-end text-primary" *ngIf="evento.natureza == 'E'">
-                                {{evento.valor!.valor | formatarNumero}} {{evento.valor!.moeda!}}</td>
+                                {{evento.valor!.valor | formatarNumero}}</td>
                             <td class="col-2 text-end text-danger" *ngIf="evento.natureza == 'S'">
-                                ({{evento.valor!.valor | formatarNumero}}) {{evento.valor!.moeda!}}</td>
-                            <td class="col-1">
-                                <button class="btn btn-sm btn-outline-primary no-border"><i
-                                        class="bi-pencil"></i></button>
-                                <button class="btn btn-sm btn-outline-danger no-border"><i
-                                        class="bi-trash"></i></button>
-                            </td>
+                                ({{evento.valor!.valor | formatarNumero}})</td>
+                            <td class="col-1 text-center">{{evento.valor!.moeda!}}</td>
+                            <td class="col-1 text-end">{{evento.natureza == 'E' ? 'Entrada' : 'Saída'}}</td>
+                            <td class="col-2 text-center">{{evento.centroCustos!}}</td>
                         </tr>
                     </tbody>
                 </table>

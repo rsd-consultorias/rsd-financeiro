@@ -4,15 +4,16 @@ import { Transacao } from './application-core/model/transacao';
 import { TransacaoApplication } from './application-core/application/transacao.application';
 import { ITrsansacaoRepository } from './application-core/interfaces/transacao.repository';
 import { TransacaoRepository } from './infra/repositories/transacao.repository';
-import { TransacaoCommands } from './application-core/commands/transacao.commands';
+import { TransacaoCommands } from './application-core/commands/transacao.command';
 import { ServiceBus } from './infra/services/service-bus.service';
 import { IServiceBus } from './application-core/interfaces/service-bus.interface';
 import { MongoClient } from 'mongodb';
 import { randomUUID } from 'crypto';
-import { hostname } from 'os';
 
-const API_PORTA = 4201;
-const API_VERSAO = 'v1'
+const API_PORTA = process.env.API_PORTA!;
+const API_VERSAO = 'v1';
+const DB_CONN_STR = process.env.DB_CONN_STR!;
+
 const corsOptions = {
     origin: [
         'http://localhost:4200',
@@ -40,7 +41,7 @@ app.get(`/api/${API_VERSAO}/`, async (req: Request, res: Response) => {
     res.json(response);
 });
 
-app.get(`/api/${API_VERSAO}/:id`, async (req: any, res: any) => {
+app.get(`/api/${API_VERSAO}/:id`, async (req: Request, res: Response) => {
     res.send("ok!");
 });
 
@@ -48,7 +49,13 @@ app.put(`/api/${API_VERSAO}/`, async (req: Request, res: Response) => {
     let transacao: Transacao = req.body;
     transacao.id = randomUUID();
 
-    res.json(await transacaoApplication.incluir(transacao));
+    try {
+        res.json(await transacaoCommands.criarTransacao(transacao));
+    } catch (error) {
+        res.json({
+            exception: error
+        });
+    }
 });
 
 app.put(`/api/${API_VERSAO}/lote`, async (req: Request, res: Response) => {
@@ -56,17 +63,17 @@ app.put(`/api/${API_VERSAO}/lote`, async (req: Request, res: Response) => {
     let processados: Array<any> = [];
     transacoes.forEach(async transacao => {
         transacao.id = randomUUID();
-        processados.push(await transacaoApplication.incluir(transacao));
+        processados.push(await transacaoCommands.criarTransacao(transacao));
     });
 
     res.json(processados);
 });
 
-app.post(`/api/${API_VERSAO}/`, async (req: any, res: any) => {
+app.post(`/api/${API_VERSAO}/`, async (req: Request, res: Response) => {
     res.send("ok!");
 });
 
-app.delete(`/api/${API_VERSAO}/`, async (req: any, res: any) => {
+app.delete(`/api/${API_VERSAO}/`, async (req: Request, res: Response) => {
     res.send("ok!");
 });
 
@@ -84,11 +91,11 @@ app.use(function (err: Error, req: Request, res: Response, next: any) {
 
 // Listener
 app.listen(API_PORTA, async () => {
-    mongoClient = await MongoClient.connect('mongodb://localhost:27017/financeiro?readPreference=primary&appname=api-rsd-transacoes&directConnection=true&ssl=false');
+    mongoClient = await MongoClient.connect(DB_CONN_STR);
     transacaoRepository = new TransacaoRepository(mongoClient);
     serviceBus = new ServiceBus(transacaoRepository, mongoClient);
     transacaoCommands = new TransacaoCommands(serviceBus);
 
-    transacaoApplication = new TransacaoApplication(transacaoRepository, transacaoCommands);
+    transacaoApplication = new TransacaoApplication(transacaoRepository);
     console.log(`Escutando porta ${API_PORTA}`);
 });

@@ -1,82 +1,50 @@
-import { TransacaoCommands } from "../commands/transacao.commands";
-import { EMessageStatus } from "../enum/message-status.enum";
 import { EMessageTipo } from "../enum/message-tipo.enum";
 import { ITrsansacaoRepository } from "../interfaces/transacao.repository";
 import { Transacao } from "../model/transacao";
-import { ApplicationResponse as ApplicationResponse } from "./application.response";
+import { ApplicationResponse as ApplicationResponse } from "../types/application.response";
 
 export class TransacaoApplication {
-    constructor(private transacaoRepository: ITrsansacaoRepository, private transacaoCommands: TransacaoCommands) { }
+    constructor(private transacaoRepository: ITrsansacaoRepository) { }
 
-    public async incluir(transacao: Transacao): Promise<ApplicationResponse> {
-        let response = new ApplicationResponse();
-        response.tipo = EMessageTipo.TRANSACAO_INCLUSAO;
-        // Regras de negócio
+    /**
+     * Inclusão de uma transação
+     * @param transacao 
+     * @returns Promise<ApplicationResponse>
+     */
+    public async criarTransacao(transacao: Transacao): Promise<ApplicationResponse> {
+        let applicationResponse = new ApplicationResponse();
+        applicationResponse.tipo = EMessageTipo.TRANSACAO_INCLUSAO;
+        // Regras de negócio -> domain services
 
-        let messageResponse = await this.transacaoCommands.criarTransacao(transacao);
-        response.status = messageResponse.status;
-        if (messageResponse.status == EMessageStatus.QUEUED) {
-            transacao.id = messageResponse.transacao.id;
-            response.sucesso = true;
-            response.id = messageResponse.id;
-            response.mensagem = `Transação na fila para processamento da inclusão.`;
-        } else if (messageResponse.status == EMessageStatus.SUCCESS) {
-            response.sucesso = true;
-            transacao.id = messageResponse.transacao.id;
-            response.id = messageResponse.id;
-            response.mensagem = "Transação incluída com sucesso";
-        } else {
-            response.sucesso = true;
-            response.id = messageResponse.id;
-            response.mensagem = "Ocorreu uma falha na operação. Tente novamente.";
-        }
-
-        return response;
+        return applicationResponse;
     }
 
-    public alterar(transacao: Transacao): ApplicationResponse {
+    /**
+     * Alteração de uma transação
+     * @param transacao 
+     * @returns Promise<ApplicationResponse>
+     */
+    public async alterarTransacao(transacao: Transacao): Promise<ApplicationResponse> {
         let response = new ApplicationResponse();
         response.tipo = EMessageTipo.TRANSACAO_ALTERACAO;
-        // Regras de negócio
-
-        let messageResponse = this.transacaoCommands.alterarTransacao(transacao);
-        response.status = messageResponse.status;
-        if (messageResponse.status == EMessageStatus.QUEUED) {
-            transacao.id = messageResponse.transacao.id;
-            response.id = transacao.id;
-            response.sucesso = true;
-            response.mensagem = `Transação na fila para processamento da alteração.`;
-        } else if (messageResponse.status == EMessageStatus.SUCCESS) {
-            response.sucesso = true;
-            transacao.id = messageResponse.transacao.id;
-            response.id = transacao.id;
-            response.mensagem = "Transação alterada com sucesso";
-        } else {
-            response.sucesso = true;
-            response.mensagem = "Ocorreu uma falha na operação. Tente novamente.";
-        }
+        // Regras de negócio -> domain services
 
         return response;
     }
 
-    public excluir(transacao: Transacao): ApplicationResponse {
+    /**
+     * Exclusão de uma transação
+     * @param transacao 
+     * @returns Promise<ApplicationResponse>
+     */
+    public async excluirTransacao(transacao: Transacao): Promise<ApplicationResponse> {
         let response = new ApplicationResponse();
         response.tipo = EMessageTipo.TRANSACAO_EXCLUSAO;
         response.id = transacao.id;
-        // Regras de negócio
+        // Regras de negócio -> domain services
 
-        let messageResponse = this.transacaoCommands.excluirTransacao(transacao);
-        response.status = messageResponse.status;
-        if (messageResponse.status == EMessageStatus.QUEUED) {
-            response.sucesso = true;
-            response.mensagem = `Transação na fila para processamento da exclusão. Id ${transacao.id}`;
-        } else if (messageResponse.status == EMessageStatus.SUCCESS) {
-            response.sucesso = true;
-            response.mensagem = "Transação excluída com sucesso";
-        } else {
-            response.sucesso = true;
-            response.mensagem = "Ocorreu uma falha na operação. Tente novamente.";
-        }
+        let incluido = await this.transacaoRepository.incluir(transacao);
+        response.status = incluido.status;
 
         return response;
     }

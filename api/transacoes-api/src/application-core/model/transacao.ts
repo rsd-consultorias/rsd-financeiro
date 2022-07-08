@@ -1,14 +1,3 @@
-import { EMessageStatus } from "../enum/message-status.enum";
-import { EMessageTipo } from "../enum/message-tipo.enum";
-
-export class MessageEvent {
-    public status!: EMessageStatus;
-    public tipo!: EMessageTipo;
-    public id!: string;
-    public data!: Date;
-    public transacao!: Transacao;
-}
-
 export class Transacao {
     public id!: string;
     public codigoEmpresa!: string;
@@ -25,6 +14,7 @@ export class EventoVO {
     public codigo!: string;
     public valor!: DinheiroVO;
     public natureza!: string;
+    public centroCustos!: string;
 }
 
 export class DinheiroVO {

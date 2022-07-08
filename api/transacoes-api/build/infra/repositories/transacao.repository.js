@@ -3,13 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransacaoRepository = void 0;
 const crypto_1 = require("crypto");
 const message_status_enum_1 = require("../../application-core/enum/message-status.enum");
-const response_paginado_1 = require("../../application-core/interfaces/response-paginado");
+const response_paginado_1 = require("../../application-core/types/response-paginado");
 class TransacaoRepository {
     constructor(mongClient) {
         this.mongClient = mongClient;
         this.collection = this.mongClient.db("financeiro").collection("transacoes");
     }
-    buscarPorId(id) {
+    async buscarPorId(id) {
         return { id: id };
     }
     async buscarTodos() {
@@ -31,15 +31,15 @@ class TransacaoRepository {
         response.total = await this.collection.countDocuments();
         return response;
     }
-    incluir(transacao) {
+    async incluir(transacao) {
         transacao.id = (0, crypto_1.randomUUID)();
-        let result = this.collection.insertOne(transacao).then(() => { }).catch(() => { }).finally(() => { });
-        return { status: message_status_enum_1.EMessageStatus.SUCCESS, model: transacao };
+        let result = await this.collection.insertOne(transacao);
+        return { status: result.acknowledged ? message_status_enum_1.EMessageStatus.SUCCESS : message_status_enum_1.EMessageStatus.FAIL, model: transacao };
     }
-    alterar(transacao) {
+    async alterar(transacao) {
         return { status: message_status_enum_1.EMessageStatus.QUEUED, model: transacao };
     }
-    excluir(id) {
+    async excluir(id) {
         return { status: message_status_enum_1.EMessageStatus.QUEUED, model: true };
     }
 }

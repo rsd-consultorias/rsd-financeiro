@@ -1,10 +1,10 @@
 import { randomUUID } from "crypto";
-import { RepositoryResponse } from "../../application-core/application/repository.response";
 import { ITrsansacaoRepository } from "../../application-core/interfaces/transacao.repository";
 import { Transacao } from "../../application-core/model/transacao";
 import { EMessageStatus } from "../../application-core/enum/message-status.enum";
 import { Collection, MongoClient } from "mongodb";
-import { ResponsePaginado } from "../../application-core/interfaces/response-paginado";
+import { ResponsePaginado } from "../../application-core/types/response-paginado";
+import { RepositoryResponse } from "../../application-core/types/repository.response";
 
 export class TransacaoRepository implements ITrsansacaoRepository {
     private collection?: Collection<Transacao>;
@@ -13,12 +13,13 @@ export class TransacaoRepository implements ITrsansacaoRepository {
         this.collection = this.mongClient.db("financeiro").collection<Transacao>("transacoes");
     }
 
-    buscarPorId(id: string): Transacao {
+    async buscarPorId(id: string): Promise<Transacao> {
         return { id: id } as Transacao;
     }
 
     async buscarTodos(): Promise<Array<Transacao>> {
         let transacoes: Array<Transacao> = [];
+
         await this.collection!.find({}, { projection: { _id: 0 }, sort: { data: -1, _id: -1 } }).forEach(data => {
             transacoes.push(data);
         });
@@ -41,17 +42,18 @@ export class TransacaoRepository implements ITrsansacaoRepository {
         return response;
     }
 
-    incluir(transacao: Transacao): RepositoryResponse<Transacao> {
+    async incluir(transacao: Transacao): Promise<RepositoryResponse<Transacao>> {
         transacao.id = randomUUID();
-        let result = this.collection!.insertOne(transacao).then(() => { }).catch(() => { }).finally(() => { });
-        return { status: EMessageStatus.SUCCESS, model: transacao } as RepositoryResponse<Transacao>;
+        let result = await this.collection!.insertOne(transacao);
+
+        return { status: result.acknowledged ? EMessageStatus.SUCCESS : EMessageStatus.FAIL, model: transacao } as RepositoryResponse<Transacao>;
     }
 
-    alterar(transacao: Transacao): RepositoryResponse<Transacao> {
+    async alterar(transacao: Transacao): Promise<RepositoryResponse<Transacao>> {
         return { status: EMessageStatus.QUEUED, model: transacao } as RepositoryResponse<Transacao>;
     }
 
-    excluir(id: string): RepositoryResponse<boolean> {
+    async excluir(id: string): Promise<RepositoryResponse<boolean>> {
         return { status: EMessageStatus.QUEUED, model: true } as RepositoryResponse<boolean>;
     }
 
