@@ -7,5 +7,5 @@ export class APIResponse<T> {
     public id!: string;
     public sucesso!: boolean | false;
     public mensagem!: string | '';
-    public model!: T;
+    public payload!: T;
 }

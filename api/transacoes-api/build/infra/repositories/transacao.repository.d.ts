@@ -1,8 +1,5 @@
-import { ITrsansacaoRepository } from "../../application-core/interfaces/transacao.repository";
-import { Transacao } from "../../application-core/model/transacao";
 import { MongoClient } from "mongodb";
-import { ResponsePaginado } from "../../application-core/types/response-paginado";
-import { RepositoryResponse } from "../../application-core/types/repository.response";
+import { ITrsansacaoRepository, Transacao, ResponsePaginado, RepositoryResponse } from "../../application-core";
 export declare class TransacaoRepository implements ITrsansacaoRepository {
     private mongClient;
     private collection?;

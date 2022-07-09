@@ -2,8 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransacaoRepository = void 0;
 const crypto_1 = require("crypto");
-const message_status_enum_1 = require("../../application-core/enum/message-status.enum");
-const response_paginado_1 = require("../../application-core/types/response-paginado");
+const application_core_1 = require("../../application-core");
 class TransacaoRepository {
     constructor(mongClient) {
         this.mongClient = mongClient;
@@ -20,7 +19,7 @@ class TransacaoRepository {
         return transacoes;
     }
     async buscarTodosPaginado(pagina, tamanho) {
-        let response = new response_paginado_1.ResponsePaginado();
+        let response = new application_core_1.ResponsePaginado();
         let transacoes = [];
         await this.collection.find({}, { projection: { _id: 0 }, sort: { data: -1, _id: -1 } }).limit(tamanho).skip(pagina).forEach(data => {
             transacoes.push(data);
@@ -34,13 +33,13 @@ class TransacaoRepository {
     async incluir(transacao) {
         transacao.id = (0, crypto_1.randomUUID)();
         let result = await this.collection.insertOne(transacao);
-        return { status: result.acknowledged ? message_status_enum_1.EMessageStatus.SUCCESS : message_status_enum_1.EMessageStatus.FAIL, model: transacao };
+        return { status: result.acknowledged ? application_core_1.EMessageStatus.SUCCESS : application_core_1.EMessageStatus.FAIL, model: transacao };
     }
     async alterar(transacao) {
-        return { status: message_status_enum_1.EMessageStatus.QUEUED, model: transacao };
+        return { status: application_core_1.EMessageStatus.QUEUED, model: transacao };
     }
     async excluir(id) {
-        return { status: message_status_enum_1.EMessageStatus.QUEUED, model: true };
+        return { status: application_core_1.EMessageStatus.QUEUED, model: true };
     }
 }
 exports.TransacaoRepository = TransacaoRepository;

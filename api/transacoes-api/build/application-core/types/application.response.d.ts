@@ -1,5 +1,4 @@
-import { EMessageStatus } from "../enum/message-status.enum";
-import { EMessageTipo } from "../enum/message-tipo.enum";
+import { EMessageTipo, EMessageStatus } from "../enum";
 export declare class ApplicationResponse {
     tipo: EMessageTipo;
     status: EMessageStatus;

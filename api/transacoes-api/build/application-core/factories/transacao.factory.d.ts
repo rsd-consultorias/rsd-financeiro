@@ -1,5 +1,5 @@
-import { TransacaoAlteradaEvent, AlterarTransacaoEvent, TransacaoCriadaEvent, CriarTransacaoEvent, TransacaoExcluidaEvent, ExcluirTransacaoEvent } from "../types/transacao.events";
-import { Transacao } from "../model/transacao";
+import { Transacao } from "../model";
+import { CriarTransacaoEvent, TransacaoCriadaEvent, TransacaoAlteradaEvent, AlterarTransacaoEvent, ExcluirTransacaoEvent, TransacaoExcluidaEvent } from "../types";
 export declare module TransacaoFactory {
     function makeCriarTransacaoEvent(transacao: Transacao): CriarTransacaoEvent;
     function makeTransacaoCriadaEvent(transacao: Transacao): TransacaoCriadaEvent;

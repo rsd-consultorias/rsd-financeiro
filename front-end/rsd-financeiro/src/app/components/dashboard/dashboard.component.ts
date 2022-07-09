@@ -253,7 +253,7 @@ export class DashboardComponent implements OnInit {
     offsety = 20;
     doc.rect(5, baseline + offsety, 200, 20);
 
-    QRCode.toDataURL('http://192.168.100.7:4200/dashboard', (err, data) => {
+    QRCode.toDataURL('https://github.com/rsd-consultorias/', (err, data) => {
       doc.addImage(data, 'image/jpg', 160, 247, 50, 50);
     });
 

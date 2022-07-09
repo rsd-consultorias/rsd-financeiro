@@ -1,7 +1,7 @@
-import { EMessageTipo } from "../enum/message-tipo.enum";
-import { ITrsansacaoRepository } from "../interfaces/transacao.repository";
-import { Transacao } from "../model/transacao";
-import { ApplicationResponse as ApplicationResponse } from "../types/application.response";
+import { EMessageTipo } from "../enum";
+import { ITrsansacaoRepository } from "../interfaces";
+import { Transacao } from "../model";
+import { ApplicationResponse } from "../types";
 
 export class TransacaoApplication {
     constructor(private transacaoRepository: ITrsansacaoRepository) { }

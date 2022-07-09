@@ -1,5 +1,4 @@
-import { EMessageStatus } from "../enum/message-status.enum";
-import { EMessageTipo } from "../enum/message-tipo.enum";
+import { EMessageStatus, EMessageTipo } from "../enum";
 export interface MessageEvent<T> {
     status: EMessageStatus;
     tipo: EMessageTipo;

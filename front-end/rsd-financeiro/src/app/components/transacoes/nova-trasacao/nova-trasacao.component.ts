@@ -84,9 +84,9 @@ export class NovaTrasacaoComponent implements OnInit {
       this.transacaoService.salvar(this.novaTransacao)
         .subscribe((data: APIResponse<Transacao>) => {
           if (data.status == EMessageStatus.QUEUED) {
-            this.alertService.warning(data.mensagem);
+            this.alertService.warning('Transação na fila para inclusão');
           } else if (data.status == EMessageStatus.SUCCESS) {
-            this.alertService.success(data.mensagem);
+            this.alertService.success('Transação incluída com sucesso');
           }
           this.novaTransacao = new Transacao();
           this.novaTransacao.documento = new DocumentoVO();

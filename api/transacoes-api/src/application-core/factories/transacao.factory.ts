@@ -1,6 +1,6 @@
-import { TransacaoAlteradaEvent, AlterarTransacaoEvent, TransacaoCriadaEvent, CriarTransacaoEvent, TransacaoExcluidaEvent, ExcluirTransacaoEvent } from "../types/transacao.events";
-import { Transacao } from "../model/transacao";
-import { EMessageTipo } from "../enum/message-tipo.enum";
+import { EMessageTipo } from "../enum";
+import { Transacao } from "../model";
+import { CriarTransacaoEvent, TransacaoCriadaEvent, TransacaoAlteradaEvent, AlterarTransacaoEvent, ExcluirTransacaoEvent, TransacaoExcluidaEvent } from "../types";
 
 export module TransacaoFactory {
     export function makeCriarTransacaoEvent(transacao: Transacao): CriarTransacaoEvent {

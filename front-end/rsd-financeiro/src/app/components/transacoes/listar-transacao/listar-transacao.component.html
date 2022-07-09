@@ -76,7 +76,7 @@
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li class="page-item" *ngFor="let item of paginas" (click)="listarTodos(item, constants.MAX_GRID_RECORDS)">
+            <li class="page-item" *ngFor="let item of paginas; let i = index" (click)="listarTodos(i, constants.MAX_GRID_RECORDS)">
                 <a class="page-link">{{item + 1}}</a>
             </li>
             <li class="page-item">

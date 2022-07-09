@@ -1,8 +1,7 @@
-import { TransacaoFactory } from "../factories/transacao.factory";
-import { IServiceBus } from "../interfaces/service-bus.interface";
-import { Transacao } from "../model/transacao";
-import { Constants } from "../types/constants";
-import { AtualizarTransacaoSaldoEvent, TransacaoAlteradaEvent, TransacaoCriadaEvent, TransacaoExcluidaEvent, TransacaoSaldoAtualizadoEvent } from "../types/transacao.events";
+import { TransacaoFactory } from "../factories";
+import { IServiceBus } from "../interfaces";
+import { Transacao } from "../model";
+import { TransacaoCriadaEvent, Constants, TransacaoAlteradaEvent, TransacaoExcluidaEvent, AtualizarTransacaoSaldoEvent, TransacaoSaldoAtualizadoEvent } from "../types";
 
 export class TransacaoCommands {
     constructor(private serviceBus: IServiceBus) { }

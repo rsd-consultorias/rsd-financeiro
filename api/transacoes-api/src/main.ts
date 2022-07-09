@@ -1,14 +1,11 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
-import { Transacao } from './application-core/model/transacao';
-import { TransacaoApplication } from './application-core/application/transacao.application';
-import { ITrsansacaoRepository } from './application-core/interfaces/transacao.repository';
-import { TransacaoRepository } from './infra/repositories/transacao.repository';
-import { TransacaoCommands } from './application-core/commands/transacao.command';
-import { ServiceBus } from './infra/services/service-bus.service';
-import { IServiceBus } from './application-core/interfaces/service-bus.interface';
-import { MongoClient } from 'mongodb';
-import { randomUUID } from 'crypto';
+import cors from "cors";
+import { randomUUID } from "crypto";
+import express, { Request, Response } from "express";
+import { MongoClient } from "mongodb";
+import { TransacaoApplication, IServiceBus, TransacaoCommands, ITrsansacaoRepository, Transacao } from "./application-core";
+import { TransacaoRepository } from "./infra/repositories/transacao.repository";
+import { AlterarTransacaoHandler, AtualizarSaldoSnapshotHandler, IncluirTransacaoHandler } from "./infra/services/handlers";
+import { ServiceBus } from "./infra/services/service-bus.service";
 
 const API_PORTA = process.env.API_PORTA!;
 const API_VERSAO = 'v1';
@@ -95,7 +92,12 @@ app.listen(API_PORTA, async () => {
     transacaoRepository = new TransacaoRepository(mongoClient);
     serviceBus = new ServiceBus(transacaoRepository, mongoClient);
     transacaoCommands = new TransacaoCommands(serviceBus);
-
     transacaoApplication = new TransacaoApplication(transacaoRepository);
+
+    // Subscribe handlers
+    new AlterarTransacaoHandler().subscribe(serviceBus);
+    new AtualizarSaldoSnapshotHandler().subscribe(serviceBus);
+    new IncluirTransacaoHandler(transacaoRepository).subscribe(serviceBus);
+
     console.log(`Escutando porta ${API_PORTA}`);
 });

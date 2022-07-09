@@ -1,6 +1,5 @@
-import { Transacao } from "../model/transacao";
-import { RepositoryResponse } from "../types/repository.response";
-import { ResponsePaginado } from "../types/response-paginado";
+import { Transacao } from "../model";
+import { ResponsePaginado, RepositoryResponse } from "../types";
 export interface ITrsansacaoRepository {
     buscarPorId(id: string): Promise<Transacao>;
     buscarTodos(): Promise<Array<Transacao>>;

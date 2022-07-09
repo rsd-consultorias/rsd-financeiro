@@ -1,6 +1,5 @@
-import { EMessageStatus } from "../enum/message-status.enum";
-import { EMessageTipo } from "../enum/message-tipo.enum";
-import { Transacao } from "../model/transacao";
+import { EMessageStatus, EMessageTipo } from "../enum";
+import { Transacao } from "../model";
 import { MessageEvent } from "./message.event";
 export declare class CriarTransacaoEvent implements MessageEvent<Transacao> {
     status: EMessageStatus;
