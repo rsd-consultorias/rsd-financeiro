@@ -54,3 +54,4 @@ var TransacaoFactory;
     }
     TransacaoFactory.makeTransacaoExcluidaEvent = makeTransacaoExcluidaEvent;
 })(TransacaoFactory = exports.TransacaoFactory || (exports.TransacaoFactory = {}));
+//# sourceMappingURL=transacao.factory.js.map

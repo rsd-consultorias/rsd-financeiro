@@ -45,3 +45,4 @@ class TransacaoCommands {
     }
 }
 exports.TransacaoCommands = TransacaoCommands;
+//# sourceMappingURL=transacao.command.js.map

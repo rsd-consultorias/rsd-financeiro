@@ -25,3 +25,4 @@ exports.AtualizarTransacaoSaldoEvent = AtualizarTransacaoSaldoEvent;
 class TransacaoSaldoAtualizadoEvent {
 }
 exports.TransacaoSaldoAtualizadoEvent = TransacaoSaldoAtualizadoEvent;
+//# sourceMappingURL=transacao.events.js.map

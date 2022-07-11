@@ -43,3 +43,4 @@ class TransacaoRepository {
     }
 }
 exports.TransacaoRepository = TransacaoRepository;
+//# sourceMappingURL=transacao.repository.js.map

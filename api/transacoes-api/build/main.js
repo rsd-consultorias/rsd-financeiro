@@ -9,6 +9,7 @@ const express_1 = __importDefault(require("express"));
 const mongodb_1 = require("mongodb");
 const application_core_1 = require("./application-core");
 const transacao_repository_1 = require("./infra/repositories/transacao.repository");
+const handlers_1 = require("./infra/services/handlers");
 const service_bus_service_1 = require("./infra/services/service-bus.service");
 const API_PORTA = process.env.API_PORTA;
 const API_VERSAO = 'v1';
@@ -84,8 +85,10 @@ app.listen(API_PORTA, async () => {
     transacaoCommands = new application_core_1.TransacaoCommands(serviceBus);
     transacaoApplication = new application_core_1.TransacaoApplication(transacaoRepository);
     // Subscribe handlers
-    new service_bus_service_1.AlterarTransacaoHandler().subscribe(serviceBus);
-    new service_bus_service_1.AtualizarSaldoSnapshotHandler().subscribe(serviceBus);
-    new service_bus_service_1.IncluirTransacaoHandler(transacaoRepository).subscribe(serviceBus);
-    console.log(`Escutando porta ${API_PORTA}`);
+    new handlers_1.AlterarTransacaoHandler().subscribe(serviceBus);
+    new handlers_1.AtualizarSaldoSnapshotHandler().subscribe(serviceBus);
+    new handlers_1.IncluirTransacaoHandler(transacaoRepository).subscribe(serviceBus);
+    console.log(`${new Date().toISOString()} Escutando porta ${API_PORTA}`);
+    console.log(`${new Date().toISOString()} Ambiente ${process.env.NODE_ENV}`);
 });
+//# sourceMappingURL=main.js.map

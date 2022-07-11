@@ -7,3 +7,4 @@ class ResponsePaginado {
     }
 }
 exports.ResponsePaginado = ResponsePaginado;
+//# sourceMappingURL=response-paginado.js.map

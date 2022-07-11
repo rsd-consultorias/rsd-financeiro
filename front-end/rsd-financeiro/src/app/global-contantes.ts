@@ -1,3 +1,3 @@
 export const constantes = {
-    MAX_GRID_RECORDS: 15
+    MAX_GRID_RECORDS: 10
 }

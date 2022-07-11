@@ -99,5 +99,6 @@ app.listen(API_PORTA, async () => {
     new AtualizarSaldoSnapshotHandler().subscribe(serviceBus);
     new IncluirTransacaoHandler(transacaoRepository).subscribe(serviceBus);
 
-    console.log(`Escutando porta ${API_PORTA}`);
+    console.log(`${new Date().toISOString()} Escutando porta ${API_PORTA}`);
+    console.log(`${new Date().toISOString()} Ambiente ${process.env.NODE_ENV}`);
 });

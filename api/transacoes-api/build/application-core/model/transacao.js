@@ -16,3 +16,4 @@ exports.DinheiroVO = DinheiroVO;
 class DocumentoVO {
 }
 exports.DocumentoVO = DocumentoVO;
+//# sourceMappingURL=transacao.js.map

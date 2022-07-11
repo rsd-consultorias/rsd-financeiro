@@ -8,3 +8,4 @@ var EMessageTipo;
     EMessageTipo["TRANSACAO_EXCLUSAO"] = "TRANSACAO_EXCLUSAO";
     EMessageTipo["TRANSACAO_SALDO"] = "TRANSACAO_SALDO";
 })(EMessageTipo = exports.EMessageTipo || (exports.EMessageTipo = {}));
+//# sourceMappingURL=message-tipo.enum.js.map

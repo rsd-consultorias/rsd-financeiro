@@ -9,3 +9,4 @@ exports.Constants = {
     QUEUE_EXCLUIR_TRANSACOES: 'QUEUE_EXCLUIR_TRANSACOES',
     QUEUE_TRANSACOES_EXCLUIDAS: 'QUEUE_TRANSACOES_EXCLUIDAS',
 };
+//# sourceMappingURL=constants.js.map

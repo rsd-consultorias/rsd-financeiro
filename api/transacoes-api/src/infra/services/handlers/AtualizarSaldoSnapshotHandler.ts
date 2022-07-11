@@ -6,7 +6,6 @@ export class AtualizarSaldoSnapshotHandler extends Subscriber {
 
     override async handle(message: MessageEvent<Transacao>): Promise<void> {
         if (this.saldo[message.payload.codigo] != null) {
-            console.log('Atualizando saldo...');
             let valorAtual: number = 0;
             let saldoAtual: number = 0;
 

@@ -7,3 +7,4 @@ exports.ApplicationResponse = ApplicationResponse;
 class ApplicationResponseModel extends ApplicationResponse {
 }
 exports.ApplicationResponseModel = ApplicationResponseModel;
+//# sourceMappingURL=application.response.js.map
