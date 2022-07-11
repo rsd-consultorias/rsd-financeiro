@@ -3,6 +3,8 @@
   "displayName": "RSD Transações - API",
   "version": "0.0.0",
   "scripts": {
+    "build": "tsc --sourceMap",
+    "patch-version": "npm patch version",
     "doc": "typedoc --entryPointStrategy expand ./src"
   },
   "private": true,
