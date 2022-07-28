@@ -25,7 +25,7 @@ export class AtualizarSaldoSnapshotHandler extends Subscriber {
         } else {
             this.saldo[message.payload.codigo] = message.payload;
         }
-        console.log(`${JSON.stringify(this.saldo)}\n`);
+        console.log(`${JSON.stringify(this.saldo, null, 2)}\n`);
         // if (message.tipo == EMessageTipo.TRANSACAO_SALDO) {
         // }
     }

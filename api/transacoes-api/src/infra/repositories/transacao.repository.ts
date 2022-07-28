@@ -1,13 +1,10 @@
 import { randomUUID } from "crypto";
-import { Collection, MongoClient } from "mongodb";
 import { ITrsansacaoRepository, Transacao, ResponsePaginado, RepositoryResponse, EMessageStatus } from "../../application-core";
+import { Connection } from 'mysql';
 
 export class TransacaoRepository implements ITrsansacaoRepository {
-    private collection?: Collection<Transacao>;
 
-    constructor(private mongClient: MongoClient) {
-        this.collection = this.mongClient.db("financeiro").collection<Transacao>("transacoes");
-    }
+    constructor(private db: Connection) { }
 
     async buscarPorId(id: string): Promise<Transacao> {
         return { id: id } as Transacao;
@@ -15,6 +12,20 @@ export class TransacaoRepository implements ITrsansacaoRepository {
 
     async buscarTodos(): Promise<Array<Transacao>> {
         let transacoes: Array<Transacao> = [];
+
+        this.db.query('', [], (err: any, result: [any]) => {
+            if(!err)
+            result.forEach(element => {
+                transacoes.push({
+                    id: element.id,
+                    codigo: element.codigo,
+                    codigoEmpresa: element.codigoEmpresa,
+                    complemento: element.complemento,
+                    data: element.data,
+                    historico: element.historico
+                } as Transacao);
+            });
+        });
 
         await this.collection!.find({}, { projection: { _id: 0 }, sort: { data: -1, _id: -1 } }).forEach(data => {
             transacoes.push(data);

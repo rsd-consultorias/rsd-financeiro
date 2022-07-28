@@ -1,6 +1,6 @@
 {
-  "name": "rsd-transacoes-api",
-  "displayName": "RSD Transações - API",
+  "name": "rsd-financeiro-api",
+  "displayName": "RSD Financeiro - API",
   "version": "0.0.0",
   "scripts": {
     "build": "tsc --sourceMap",

@@ -24,6 +24,8 @@ import { FormatoDataPipePipe } from './pipes/formato-data-pipe.pipe';
 import { FormatoSaldoContabilPipe } from './pipes/formato-saldo-contabil.pipe';
 import { AtivoFixoComponent } from './components/ativo-fixo/ativo-fixo.component';
 import { TransacoesAlterarComponent } from './components/transacoes/transacoes-alterar/transacoes-alterar.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,13 @@ import { TransacoesAlterarComponent } from './components/transacoes/transacoes-a
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     FormatarNumeroPipe,

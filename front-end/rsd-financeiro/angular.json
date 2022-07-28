@@ -5,7 +5,12 @@
   "projects": {
     "rsd-financeiro": {
       "i18n": {
-        "sourceLocale": "pt-BR"
+        "sourceLocale": "pt-BR",
+        "locales": {
+          "en": {
+            "translation": "src/locale/messages.en.json"
+          }
+        }
       },
       "projectType": "application",
       "schematics": {
@@ -28,7 +33,10 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.scss",
@@ -36,7 +44,10 @@
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json",
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
@@ -44,7 +55,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -74,6 +85,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
+            "en": {
+              "browserTarget": "rsd-financeiro:build:development,en"
+            },
             "production": {
               "browserTarget": "rsd-financeiro:build:production"
             },
@@ -99,12 +113,16 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           }
         }
       }

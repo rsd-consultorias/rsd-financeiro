@@ -2,6 +2,7 @@ import cors from "cors";
 import { randomUUID } from "crypto";
 import express, { Request, Response } from "express";
 import { MongoClient } from "mongodb";
+import { Connection, createConnection } from "mysql";
 import { TransacaoApplication, IServiceBus, TransacaoCommands, ITrsansacaoRepository, Transacao } from "./application-core";
 import { TransacaoRepository } from "./infra/repositories/transacao.repository";
 import { AlterarTransacaoHandler, AtualizarSaldoSnapshotHandler, IncluirTransacaoHandler } from "./infra/services/handlers";
@@ -18,7 +19,7 @@ const corsOptions = {
     ]
 };
 
-let mongoClient: MongoClient;
+let dbClient: Connection;
 let transacaoApplication: TransacaoApplication;
 let serviceBus: IServiceBus;
 let transacaoCommands: TransacaoCommands;
@@ -88,9 +89,15 @@ app.use(function (err: Error, req: Request, res: Response, next: any) {
 
 // Listener
 app.listen(API_PORTA, async () => {
-    mongoClient = await MongoClient.connect(DB_CONN_STR);
-    transacaoRepository = new TransacaoRepository(mongoClient);
-    serviceBus = new ServiceBus(transacaoRepository, mongoClient);
+    dbClient = createConnection({
+        host: 'localhost',
+        port: 3306,
+        password: 'root',
+        user: 'root',
+        database: 'recall'
+    });
+    transacaoRepository = new TransacaoRepository(dbClient);
+    serviceBus = new ServiceBus(transacaoRepository, dbClient);
     transacaoCommands = new TransacaoCommands(serviceBus);
     transacaoApplication = new TransacaoApplication(transacaoRepository);
 
